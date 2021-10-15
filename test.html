@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <title>Calculadora de notas</title>
+</head>
+<body class="flex flex-column items-start justify-center bg-blue-200 overflow-y-auto">
+
+    <div class="w-4/5 text-center mt-10" id="container">
+        <h1 class="text-5xl font-bold">Calculadora de notas</h1>
+        
+        <div>
+            <input type="text" id="group-create" class="p-2 rounded-full" />
+            <button class="bg-blue-300 p-2 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Crear un grupo</button>
+            <button class="bg-blue-300 p-2 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Cambiar indicadores</button>
+        </div>
+
+        <div class="test-dates w-full p-10 flex flex-wrap flex-column justify-center" id="test_dates" id="groups">
+
+            <div class="w-full mb-10 group">
+                <div id="title" class="bg-blue-300 w-full font-bold text-lg">Grupo A</div>
+                <div id="students">
+                    <div class="student">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-2 border-black">
+                                    <th class="border-2 border-black">Nombre del estudiante</th>
+                                    <th class="border-2 border-black">Respuestas erroneas</th>
+                                    <th class="border-2 border-black">Pts obtenidos</th>
+                                    <th class="border-2 border-black">Nota</th>
+                                    <th class="border-2 border-black" colspan="2">Porcentage %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button class="bg-green-300 mt-2 p-2 hover:bg-green-400">Añadir estudiante</button></div>
+            </div>
+
+            <div class="w-full mb-10 group">
+                <div id="title" class="bg-blue-300 w-full font-bold text-lg">Grupo B</div>
+                <div id="students">
+                    <div class="student">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-2 border-black">
+                                    <th class="border-2 border-black">Nombre del estudiante</th>
+                                    <th class="border-2 border-black">Respuestas erroneas</th>
+                                    <th class="border-2 border-black">Pts obtenidos</th>
+                                    <th class="border-2 border-black">Nota</th>
+                                    <th class="border-2 border-black" colspan="2">Porcentage %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button class="bg-green-300 mt-2 p-2 hover:bg-green-400">Añadir estudiante</button></div>
+            </div>
+
+            <div class="w-full mb-10 group">
+                <div id="title" class="bg-blue-300 w-full font-bold text-lg">Grupo C</div>
+                <div id="students">
+                    <div class="student">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-2 border-black">
+                                    <th class="border-2 border-black">Nombre del estudiante</th>
+                                    <th class="border-2 border-black">Respuestas erroneas</th>
+                                    <th class="border-2 border-black">Pts obtenidos</th>
+                                    <th class="border-2 border-black">Nota</th>
+                                    <th class="border-2 border-black" colspan="2">Porcentage %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                                <tr class="border-2 border-black">
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="Alvarez Abarca Isaí" /></td>
+                                    <td class="border-2 border-black"><input type="text" class="w-full bg-transparent" value="9, 35, 24, 22" /></td>
+                                    <td class="border-2 border-black">15</td>
+                                    <td class="border-2 border-black">100</td>
+                                    <td class="border-2 border-black">22</td>
+                                    <td class="border-2 border-black bg-red-300"><button class="font-bold">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button class="bg-green-300 mt-2 p-2 hover:bg-green-400">Añadir estudiante</button></div>
+            </div>
+
+        </div>
+    </div>
+        
+</body>
+</html>
