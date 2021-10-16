@@ -5,9 +5,9 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
-router.get('/class/:examen', (req, res) => {
+router.get('/class/:testDate', (req, res) => {
     res.render('class', {
-        data: req.params.examen
+        testDate: req.params.testDate
     });
 });
 

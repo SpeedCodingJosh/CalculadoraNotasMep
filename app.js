@@ -8,7 +8,8 @@ const myconn = require('express-myconnection');
 
 // Routes require
 const mainRoutes = require('./routes/mainroutes');
-const apiRoutes = require('./routes/apiroutes');
+const testRoutes = require('./routes/testRoutes');
+const classRoutes = require('./routes/classRoutes');
 
 // Data
 const app = express();
@@ -23,8 +24,6 @@ const databaseOptions = {
 };
 
 const hbs = require('hbs');
-const fs = require('fs');
-const { json } = require('express');
 
 // HANDLEBARS
 app.set('view engine', 'hbs');
@@ -36,13 +35,12 @@ app.use(express.json());
 app.use(cors());
 app.use(myconn(mysql, databaseOptions, 'single'));
 
-// ROUTES
-
 // Main routes
 app.use('/', mainRoutes);
 
 // API routes
-app.use('/api', apiRoutes);
+app.use('/api/tests', testRoutes);
+app.use('/api/class', classRoutes);
 
 // Unknown route
 app.get('*', (req, res) => {

@@ -17,7 +17,6 @@ async function createTest () {
         }
 
         const post = await storeTestToDB(params); 
-        console.log(post);
 
         // Validation
         if(post.code === 500)
@@ -46,7 +45,7 @@ async function loadTests () {
             const parseDate = new Date(test.date);
             const correctDate = `${parseDate.getDate().toString().padStart(2, '0')}/${(parseDate.getMonth()+1).toString().padStart(2, '0')}/${parseDate.getFullYear()}`;
 
-            finalHtml += `<a href="/class/${test.user_id}" class="w-1/2 h-full font-bold hover:bg-blue-300 rounded-xl mb-10">Examen ${correctDate}</a>\n`;
+            finalHtml += `<a href="/class/${parseDate.getFullYear()}-${parseDate.getMonth()+1}-${parseDate.getDate()}" class="w-1/2 h-full font-bold hover:bg-blue-300 rounded-xl mb-10">Examen ${correctDate}</a>\n`;
         });
         container.innerHTML = finalHtml;
     }
