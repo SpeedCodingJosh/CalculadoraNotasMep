@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> header}}
+<body class="flex flex-column items-start justify-center bg-blue-200">
+
+    <div class="w-4/5 text-center mt-10" id="container">
+        <h1 class="text-5xl font-bold">Elegir una clase</h1>
+        
+        <div>
+            <input type="text" id="group-create" class="p-2 rounded-full focus:outline-none" />
+            <button class="bg-blue-300 p-2 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Crear una clase</button>
+            <a href="/" class="bg-blue-300 p-2 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Elegir otro examen</a>
+        </div>
+
+        <div class="test-dates w-full mt-3 p-10 flex flex-wrap flex-column justify-left" id="test_dates">
+            <a href="/test" class="w-1/3 h-full font-bold hover:bg-blue-300 rounded-xl">{{data}}</a>
+            <a href="/test" class="w-1/3 h-full font-bold hover:bg-blue-300 rounded-xl">9-2</a>
+            <a href="/test" class="w-1/3 h-full font-bold hover:bg-blue-300 rounded-xl">9-3</a>
+            <a href="/test" class="w-1/3 h-full font-bold hover:bg-blue-300 rounded-xl">9-4</a>
+        </div>
+    </div>
+
+</body>
+</html>
