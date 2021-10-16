@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `SELECT * FROM tests WHERE tests.user_id = ${req.query.userID}`;
+        const query = `SELECT * FROM tests WHERE tests.user_id = ${req.query.userID} AND visible=1`;
         conn.query(query, (err, rows) => {
             if(err) 
                 return res.json({code: 500, error: err});
@@ -24,7 +24,7 @@ router.get('/date', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `SELECT id, date FROM tests WHERE tests.date = '${req.query.date}'`;
+        const query = `SELECT id, visible, date FROM tests WHERE tests.date = '${req.query.date}' AND visible=1`;
         conn.query(query, (err, rows) => {
             if(err) 
                 return res.json({code: 500, error: err});

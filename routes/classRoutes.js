@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `SELECT c.id, class_name, t.id AS testID, date FROM classes AS c JOIN tests AS t ON c.test_id=t.id WHERE t.date = '${req.query.testDate}'`;
+        const query = `SELECT c.id, c.visible, class_name, t.id AS testID, date FROM classes AS c JOIN tests AS t ON c.test_id=t.id WHERE t.date = '${req.query.testDate}' AND c.visible=1`;
         conn.query(query, (err, rows) => {
             if(err) 
                 return res.json({code: 500, error: err});
