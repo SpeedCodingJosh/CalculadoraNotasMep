@@ -1,9 +1,26 @@
 require('dotenv').config();
 
+// Requires
 const express = require('express');
 const cors = require('cors');
+const mysql = require('mysql');
+const myconn = require('express-myconnection');
+
+// Routes require
+const mainRoutes = require('./routes/mainroutes');
+const apiRoutes = require('./routes/apiroutes');
+
+// Data
 const app = express();
 const port = process.env.PORT || 3000;
+
+const databaseOptions = {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
+};
 
 const hbs = require('hbs');
 const fs = require('fs');
@@ -17,40 +34,17 @@ hbs.registerPartials(`${__dirname}/views/partials`);
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
+app.use(myconn(mysql, databaseOptions, 'single'));
 
 // ROUTES
-app.get('/', (req, res) => {
-    res.render('home');
-});
 
-app.get('/class/:examen', (req, res) => {
-    console.log(req);
-    res.render('class', {
-        data: req.params.examen
-    });
-});
+// Main routes
+app.use('/', mainRoutes);
 
-app.get('/test', (req, res) => {
-    res.render('test');
-});
+// API routes
+app.use('/api', apiRoutes);
 
-app.get('/indicators', (req, res) => {
-    res.render('indicators');
-});
-
-// Data handling
-app.get('/api/tests', (req, res) => {
-    const file = fs.readFileSync('./data/database.json', { encoding: 'utf-8'});
-    const data = JSON.parse(file);
-
-    res.json(data);
-});
-
-app.post('/api/save', (req, res) => {
-    // const file = fs.writeFileSync('./data/database.json', { encoding: 'utf-8'});
-    res.json({req});
-});
-
+// Unknown route
 app.get('*', (req, res) => {
     res.render('404');
 });
