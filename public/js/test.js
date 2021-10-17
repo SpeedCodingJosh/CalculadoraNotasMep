@@ -124,16 +124,56 @@ async function loadGroups () {
             <tr class="border-2 border-black">
                 <td class="border-2 border-black"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-name" inputindex="${data.id}" value="${data.student}" /></td>
                 <td class="border-2 border-black"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-value" inputindex="${data.id}" value="${data.wrong_answers}" /></td>
-                <td class="border-2 border-black">${data.points}</td>
-                <td class="border-2 border-black">${data.note}</td>
-                <td class="border-2 border-black">${data.percentage}</td>
+                <td class="border-2 border-black student-points">${data.points}</td>
+                <td class="border-2 border-black student-note">${data.note}</td>
+                <td class="border-2 border-black student-percentage">${data.percentage}</td>
                 <td class="border-2 border-black"><button onclick="deleteStudent(${data.id})" class="w-full h-full font-bold bg-red-300 hover:bg-red-400">X</button></td>
             </tr>`;
         });
 
         body.innerHTML = studentsInfo;
     });
-    
+
+    setTimeout(() => {
+        const studentInputs = container.querySelectorAll('.student-name');
+        studentInputs.forEach(student => {
+            student.addEventListener('blur', async (e) => {
+                e.preventDefault();
+
+                const saveName = await updateStudentName({ 
+                    studentName: e.target.value, 
+                    id: student.attributes['inputindex'].value
+                });
+
+                if(saveName.code === 200)
+                    loadGroups();
+            });
+        });
+
+        const studentValuesInput = container.querySelectorAll('.student-value');
+        studentValuesInput.forEach(student => {
+            student.addEventListener('blur', async (e) => {
+                e.preventDefault();
+
+                const points = student.parentElement.parentElement.querySelector('.student-points');
+                const note = student.parentElement.parentElement.querySelector('.student-note');
+                const percentage = student.parentElement.parentElement.querySelector('.student-percentage');
+
+                let wrongPoints = 0;
+                points.innerText = +indicator_settings.test_points;
+                note.innerText = Math.round(+points.innerText / +indicator_settings.test_points) * 100;
+                percentage.innerText = +note.innerText * indicator_settings.percentage;
+
+                // const saveName = await updateStudentName({ 
+                //     studentName: e.target.value, 
+                //     id: student.attributes['inputindex'].value
+                // });
+
+                // if(saveName.code === 200)
+                //     loadGroups();
+            });
+        });
+    }, 100);   
 
     // Change title of the class
     const classInfo = await getClassInfoByID(classID.value);

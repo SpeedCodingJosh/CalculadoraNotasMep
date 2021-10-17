@@ -87,8 +87,18 @@ async function storeStudentToDB (params) {
 }
 
 async function removeStudent (params) {
-    const post = await axios.delete(`${databaseURL}/tests/create/student`, params);
-    return post.data;
+    const remove = await axios.delete(`${databaseURL}/tests/create/student`, params);
+    return remove.data;
+}
+
+async function updateStudentName (params) {
+    const put = await axios.put(`${databaseURL}/tests/update/student`, params);
+    return put.data;
+}
+
+async function updateStudentValues (params) {
+    const put = await axios.put(`${databaseURL}/tests/update/values`, params);
+    return put.data;
 }
 
 /************
