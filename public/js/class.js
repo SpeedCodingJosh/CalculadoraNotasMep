@@ -34,7 +34,6 @@ async function createClass () {
             // Validation
             if(post.code === 500) {
                 classValidation.innerText = "Hubo un error al intentar crear el grupo, intente más tarde.";
-                console.log(post.error);
             }
             else if(post.code === 200) {
                 input.value = '';

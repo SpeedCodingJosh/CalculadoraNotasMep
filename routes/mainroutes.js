@@ -17,8 +17,11 @@ router.get('/test/:classID', (req, res) => {
     });
 });
 
-router.get('/indicators', (req, res) => {
-    res.render('indicators');
+router.get('/indicators/:classID/:settingID', (req, res) => {
+    res.render('indicators', { 
+        settingID: req.params.settingID,
+        classID: req.params.classID
+    });
 });
 
 module.exports = router;

@@ -1,5 +1,8 @@
 const createGroupBtn = document.getElementById('create-group-btn');
 let deleteGroupButtons = [];
+let addStudentButtons = [];
+let indicator_settings = {};
+let indicators = [];
 
 createGroupBtn.addEventListener('click', () => {
     createGroup();
@@ -56,10 +59,6 @@ async function loadGroups () {
     const classID = document.getElementById('classID');
     const groups = await getTestsGroups(classID.value);
 
-    const className = await getClassNameByID(classID.value);
-    const title = document.getElementById('class-name');
-    title.innerText = `Calculadora de notas: ${className}`;
-
     const container = document.getElementById('groups');
     container.innerHTML = '';
     let finalHtml = '';
@@ -94,6 +93,39 @@ async function loadGroups () {
         container.innerHTML = finalHtml;
     }
 
+    // Change title of the class
+    const classInfo = await getClassInfoByID(classID.value);
+    const title = document.getElementById('class-name');
+    title.innerText = `Calculadora de notas: ${classInfo.class_name}`;
+
+    // Get class and test info
+    const testID = document.getElementById('testID');
+    testID.value = classInfo.test_id;
+    const testInfo = await getTestInfoByID(classInfo.test_id);
+    const backButton = document.getElementById('backBtn');
+    const date = new Date(testInfo.date);
+    const correctDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+    backButton.setAttribute('href', `/class/${correctDate}`);
+
+    // Get indicators settings
+    indicator_settings = await getIndicators(classInfo.test_id);
+    indicator_settings = indicator_settings.data.rows[0];
+
+    indicators = await getIndicatorGroups(indicator_settings.id);
+    if(indicators.data.code === 404)
+        indicators = [];
+    else if(indicators.data.code === 200)
+        indicators = indicators.data.rows;
+
+    if(indicators.length <= 0) {
+        const groupValidation = document.getElementById('group-validation');
+        groupValidation.innerText = "No existen indicadores, por favor, asegúrese de configurarlos.";
+    }
+
+    const indicatorsBtn = document.getElementById('change-indicators');
+    indicatorsBtn.setAttribute('href', `/indicators/${classID.value}/${indicator_settings.id}`);
+
+    // Delete group
     deleteGroupButtons = container.querySelectorAll('.remove-group');
     deleteGroupButtons.forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -104,6 +136,23 @@ async function loadGroups () {
             else (remove.code === 200)
                 loadGroups();
         });
+    });
+
+    // Add student
+    addStudentButtons = container.querySelectorAll('.add-student');
+    addStudentButtons.forEach(btn => {
+        const parent = btn.parentNode.parentNode;
+        const tbody = parent.querySelector('tbody');
+
+        btn.addEventListener('click', () => {
+            if(indicators.length <= 0) {
+                const groupValidation = document.getElementById('group-validation');
+                groupValidation.innerText = "No existen indicadores, por favor, asegúrese de configurarlos.";
+
+                return;
+            }
+        });
+        // tbody.innerHTML +=
     });
 }
 

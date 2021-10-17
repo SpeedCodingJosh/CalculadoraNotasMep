@@ -6,44 +6,31 @@
     <div class="w-4/5 text-center mt-10" id="container">
         <h1 class="text-5xl font-bold">Indicadores</h1>
         
-        <div>
-            <button class="bg-blue-300 p-2 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Crear un indicador</button>
-            <a href="/test" class="bg-green-300 p-3 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Guardar</a>
-            <a href="/test" class="bg-red-300 p-3 mt-10 border-black rounded-full hover:bg-blue-400 hover:text-white">Regresar</a>
+        <div class="mt-10">
+            <h3 class="font-bold text-red-600 mb-5" id="indicator-validation"></h3>
+            <button id="create-indicator-btn" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Crear un indicador</button>
+            <button class="bg-green-300 p-3 border-black rounded-full hover:bg-blue-400 hover:text-white" id="save-btn">Guardar</button>
+            <button id="exit-btn" class="bg-red-300 p-3 border-black rounded-full hover:bg-blue-400 hover:text-white">Regresar</button>
         </div>
 
         <div class="w-full mt-10 font-bold text-left" id="indicators">
             <h2>Puntos por indicador:</h2>
             <ul class="ml-3 mt-2">
-                <li>De 0 a 1 respuestas erroneas: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" value="3" /> punto(s).</li>
-                <li>De 2 a 3 respuestas erroneas: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" value="2" /> punto(s).</li>
-                <li>4+ respuestas erroneas: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" value="1" /> punto(s).</li>
+                <li>De 0 a 1 respuestas erroneas: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" id="first" value="3" /> punto(s).</li>
+                <li>De 2 a 3 respuestas erroneas: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" id="second" value="2" /> punto(s).</li>
+                <li>4+ respuestas erroneas: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" id="third" value="1" /> punto(s).</li>
+                <li>Porcentaje del examen: <input class="w-8 bg-transparent text-right mr-1 focus:outline-none" type="text" id="percentage" value="0.22" /> %</li>
             </ul>
         </div>
 
-        <div class="w-full mt-3 p-10 flex flex-wrap flex-column justify-center" id="indicators">
-           
-            <div class="w-1/3 m-2 group">
-                <div id="title" class="bg-blue-400 w-full font-bold text-lg">Indicador 1</div>
-                <div class="bg-blue-300 w-full p-2">
-                    <textarea class="w-full bg-transparent text-center focus:outline-none" rows="5"></textarea>
-                </div>
-            </div>
-            <div class="w-1/3 m-2 group">
-                <div id="title" class="bg-blue-400 w-full font-bold text-lg">Indicador 1</div>
-                <div class="bg-blue-300 w-full p-2">
-                    <textarea class="w-full bg-transparent text-center focus:outline-none" rows="5"></textarea>
-                </div>
-            </div>
-            <div class="w-1/3 m-2 group">
-                <div id="title" class="bg-blue-400 w-full font-bold text-lg">Indicador 1</div>
-                <div class="bg-blue-300 w-full p-2">
-                    <textarea class="w-full bg-transparent text-center focus:outline-none" rows="5"></textarea>
-                </div>
-            </div>
-            
-        </div>
+        <div class="w-full mt-3 p-10 flex flex-wrap flex-column justify-center" id="indicators-group"></div>
     </div>
     
+    <input type="hidden" id="settingID" value="{{settingID}}" />
+    <input type="hidden" id="classID" value="{{classID}}" />
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../../js/database.js"></script>       
+    <script src="../../js/indicators.js"></script>
 </body>
 </html>

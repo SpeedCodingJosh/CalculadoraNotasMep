@@ -24,7 +24,7 @@ router.get('/id', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `SELECT class_name FROM classes WHERE id = '${req.query.id}' AND visible=1`;
+        const query = `SELECT class_name, test_id FROM classes WHERE id = '${req.query.id}' AND visible=1`;
         conn.query(query, (err, rows) => {
             if(err) 
                 return res.json({code: 500, error: err});

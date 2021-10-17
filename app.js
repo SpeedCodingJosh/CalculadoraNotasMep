@@ -11,6 +11,7 @@ const mainRoutes = require('./routes/mainroutes');
 const testRoutes = require('./routes/testRoutes');
 const classRoutes = require('./routes/classRoutes');
 const groupRoutes = require('./routes/groupRoutes');
+const indicatorRoutes = require('./routes/indicatorRoutes');
 
 // Data
 const app = express();
@@ -43,6 +44,7 @@ app.use('/', mainRoutes);
 app.use('/api/tests', testRoutes);
 app.use('/api/class', classRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/indicators', indicatorRoutes);
 
 // Unknown route
 app.get('*', (req, res) => {

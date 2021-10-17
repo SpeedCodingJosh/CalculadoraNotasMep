@@ -10,16 +10,18 @@
             <h3 class="font-bold text-red-600 mb-5" id="group-validation"></h3>
             <input type="text" id="group-create" class="p-2 rounded-full focus:outline-none" />
             <button id="create-group-btn" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Crear un grupo</button>
-            <a href="/indicators" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Cambiar indicadores</a>
-            <a href="/class/{{classID}}" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Cambiar clase</a>
+            <a href="/indicators" id="change-indicators" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Cambiar indicadores</a>
+            <a href="/class/{{classID}}" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white" id="backBtn">Cambiar clase</a>
         </div>
 
         <div class="test-dates w-full p-10 flex flex-wrap flex-column justify-center" id="groups"></div>
     </div>
     
     <input type="hidden" id="classID" value="{{classID}}" />
+    <input type="hidden" id="testID" value="" />
 
-    {{> footer}}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/database.js"></script>
     <script src="../js/test.js"></script>
 </body>
 </html>
