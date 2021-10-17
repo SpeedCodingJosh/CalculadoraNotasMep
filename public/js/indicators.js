@@ -75,11 +75,13 @@ saveBtn.addEventListener('click', async () => {
         third = third.value;
         let percentage = document.getElementById('percentage');
         percentage = percentage.value;
+        let test_points = document.getElementById('test_points');
+        test_points = test_points.value;
         let settingID = document.getElementById('settingID');
         settingID = settingID.value;
 
         const settingsParams = {
-            first, second, third, percentage, settingID
+            first, second, third, percentage, test_points, settingID
         };
 
         const updateSettings = await updateIndicatorSettings(settingsParams);
@@ -163,11 +165,13 @@ async function loadIndicators () {
     const second = document.getElementById('second');
     const third = document.getElementById('third');
     const percentage = document.getElementById('percentage');
+    const test_points = document.getElementById('test_points');
 
     first.value = settings.first;
     second.value = settings.second;
     third.value = settings.third;
     percentage.value = settings.percentage;
+    test_points.value = settings.test_points;
 }
 
 loadIndicators();

@@ -54,6 +54,23 @@ router.get('/id', (req, res) => {
     });
 });
 
+router.get('/student', (req, res) => {
+    req.getConnection((err, conn) => {
+        if(err) 
+            return res.json({code: 500, error: err});
+        const query = `SELECT * FROM test_data WHERE group_id = '${req.query.id}' AND visible=1`;
+        conn.query(query, (err, rows) => {
+            if(err) 
+                return res.json({code: 500, error: err});
+
+            if(rows.length > 0)
+                return res.json({code:200, rows});
+            else 
+                return res.json({code:404, desc: 'No results found'});
+        }); 
+    });
+});
+
 router.post('/create', (req, res) => {
     req.getConnection((err, conn) => {
         if(err) 
@@ -76,6 +93,38 @@ router.post('/create', (req, res) => {
                 }
                 return res.json({code:200, result: {date: req.body.date, id: req.body.id}});
             });
+        }); 
+    });
+});
+
+router.post('/create/student', (req, res) => {
+    req.getConnection((err, conn) => {
+        if(err) 
+            return res.json({code: 500, error: err});
+        
+        const query = `INSERT INTO test_data (group_id) values (${req.body.id})`;
+        conn.query(query, (err, rows) => {
+            if(err) {
+                return res.json({code: 500, error: err});
+            }
+
+            return res.json({code:200, result: 'Student created'});
+        }); 
+    });
+});
+
+router.delete('/create/student', (req, res) => {
+    req.getConnection((err, conn) => {
+        if(err) 
+            return res.json({code: 500, error: err});
+        
+        const query = `UPDATE test_data SET visible=0 WHERE id=(${req.body.id})`;
+        conn.query(query, (err, rows) => {
+            if(err) {
+                return res.json({code: 500, error: err});
+            }
+
+            return res.json({code:200, result: 'Student deleted'});
         }); 
     });
 });

@@ -57,7 +57,7 @@ router.put('/update', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `UPDATE indicator_settings SET first=${req.body.first}, second=${req.body.second}, third=${req.body.third}, percentage=${req.body.percentage} WHERE id = ${req.body.settingID}`;
+        const query = `UPDATE indicator_settings SET first=${req.body.first}, second=${req.body.second}, third=${req.body.third}, percentage=${req.body.percentage}, test_points=${req.body.test_points} WHERE id = ${req.body.settingID}`;
         conn.query(query, (err, rows) => {
             if(err) {
                 return res.json({code: 500, error: err});
@@ -70,7 +70,8 @@ router.put('/update', (req, res) => {
                     first:req.body.first, 
                     second: req.body.second, 
                     third: req.body.third,
-                    percentage: req.body.percentage
+                    percentage: req.body.percentage,
+                    testPoints: req.body.test_points
                 }
             });
         }); 

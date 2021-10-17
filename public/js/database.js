@@ -58,8 +58,36 @@ async function getTestInfoByID (id) {
     return [];
 }
 
+async function getStudentInfo (id) {
+    const get = await axios.get(`${databaseURL}/tests/student`, {
+        params: {
+            id
+        }
+    });
+
+    if(get.data.code)
+    {
+        if(get.data.code === 200)
+            return get.data.rows;  
+        else if(get.data.code === 404) 
+            return [];
+    }
+
+    return [];
+}
+
 async function storeTestToDB (params) {
     const post = await axios.post(`${databaseURL}/tests/create`, params);
+    return post.data;
+}
+
+async function storeStudentToDB (params) {
+    const post = await axios.post(`${databaseURL}/tests/create/student`, params);
+    return post.data;
+}
+
+async function removeStudent (params) {
+    const post = await axios.delete(`${databaseURL}/tests/create/student`, params);
     return post.data;
 }
 

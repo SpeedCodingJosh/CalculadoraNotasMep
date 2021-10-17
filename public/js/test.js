@@ -8,6 +8,23 @@ createGroupBtn.addEventListener('click', () => {
     createGroup();
 });
 
+async function deleteStudent(id) {
+    const removeConfirm = confirm("Esta seguro(a) que quiere eliminar este estudiante de la base de datos?");
+    
+    if(removeConfirm) {
+        const remove = await removeStudent({ data: { id } });
+        if(remove.code === 200)
+            loadGroups();
+    }
+}
+
+async function storeStudent(id) {
+    const post = await storeStudentToDB({ id });
+
+    if(post.code === 200)
+        loadGroups();
+}
+
 async function createGroup () {
     const input = document.getElementById('group-create');
     const groupValidation = document.getElementById('group-validation');
@@ -54,6 +71,8 @@ async function createGroup () {
     }
 }
 
+
+
 // Called from databases.js
 async function loadGroups () {
     const classID = document.getElementById('classID');
@@ -65,7 +84,8 @@ async function loadGroups () {
     
     if(groups.length > 0)
     {
-        groups.forEach(group => {
+        groups.forEach((group) => {
+            // Set Group
             finalHtml += `
             <div class="w-full mb-10 group">
             <div class="group-title bg-blue-300 w-full font-bold text-lg">${group.group_name}</div>
@@ -80,18 +100,40 @@ async function loadGroups () {
                             <th class="border-2 border-black" colspan="2">Porcentage %</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody indexprop="${group.id}">
                     </tbody>
                 </table>
             </div>
             <div class="flex justify-end">
                 <button indexprop="${group.id}" class="remove-group bg-red-300 mt-2 p-2 hover:bg-red-400">Eliminar grupo</button>
-                <button class="add-student bg-green-300 mt-2 p-2 hover:bg-green-400">Añadir estudiante</button>
+                <button class="add-student bg-green-300 mt-2 p-2 hover:bg-green-400" onclick="storeStudent(${group.id})">Añadir estudiante</button>
             </div>
             </div>\n`;
         });
         container.innerHTML = finalHtml;
     }
+
+    const tbodies = container.querySelectorAll('tbody');
+    tbodies.forEach(async (body) => {
+        // Get Student Info
+        const test_data = await getStudentInfo(body.attributes['indexprop'].value);
+        let studentsInfo = '';
+
+        test_data.forEach(data => {
+            studentsInfo += `
+            <tr class="border-2 border-black">
+                <td class="border-2 border-black"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-name" inputindex="${data.id}" value="${data.student}" /></td>
+                <td class="border-2 border-black"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-value" inputindex="${data.id}" value="${data.wrong_answers}" /></td>
+                <td class="border-2 border-black">${data.points}</td>
+                <td class="border-2 border-black">${data.note}</td>
+                <td class="border-2 border-black">${data.percentage}</td>
+                <td class="border-2 border-black"><button onclick="deleteStudent(${data.id})" class="w-full h-full font-bold bg-red-300 hover:bg-red-400">X</button></td>
+            </tr>`;
+        });
+
+        body.innerHTML = studentsInfo;
+    });
+    
 
     // Change title of the class
     const classInfo = await getClassInfoByID(classID.value);
