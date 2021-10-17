@@ -11,8 +11,10 @@ router.get('/class/:testDate', (req, res) => {
     });
 });
 
-router.get('/test', (req, res) => {
-    res.render('test');
+router.get('/test/:classID', (req, res) => {
+    res.render('test', {
+        classID: req.params.classID
+    });
 });
 
 router.get('/indicators', (req, res) => {

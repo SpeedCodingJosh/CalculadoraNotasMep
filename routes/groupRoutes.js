@@ -6,25 +6,7 @@ router.get('/', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `SELECT c.id, c.visible, class_name, t.id AS testID, date FROM classes AS c JOIN tests AS t ON c.test_id=t.id WHERE t.date = '${req.query.testDate}' AND c.visible=1`;
-        conn.query(query, (err, rows) => {
-            if(err) 
-                return res.json({code: 500, error: err});
-
-            if(rows.length > 0)
-                return res.json({code:200, rows});
-            else 
-                return res.json({code:404, desc: 'No results found'});
-        }); 
-    });
-});
-
-router.get('/id', (req, res) => {
-    req.getConnection((err, conn) => {
-        if(err) 
-            return res.json({code: 500, error: err});
-        
-        const query = `SELECT class_name FROM classes WHERE id = '${req.query.id}' AND visible=1`;
+        const query = `SELECT id, group_name, class_id FROM class_group WHERE class_id = ${req.query.classID} AND visible=1`;
         conn.query(query, (err, rows) => {
             if(err) 
                 return res.json({code: 500, error: err});
@@ -42,17 +24,29 @@ router.post('/create', (req, res) => {
         if(err) 
             return res.json({code: 500, error: err});
         
-        const query = `INSERT INTO classes (class_name, test_id) values ('${req.body.name}', ${req.body.testID})`;
+        const query = `INSERT INTO class_group (group_name, class_id) values ('${req.body.name}', ${req.body.classID})`;
         conn.query(query, (err, rows) => {
-            if(err) 
-            {
-                if(err.errno === 1062) // Duplicate entry
-                    return res.json({code: 1062, error: err});
-                else
-                    return res.json({code: 500, error: err});
+            if(err) {
+                return res.json({code: 500, error: err});
             }
 
-            return res.json({code:200, result: {class_name: req.body.class_name}});
+            return res.json({code:200, result: {group_name: req.body.name}});
+        }); 
+    });
+});
+
+router.delete('/remove', (req, res) => {
+    req.getConnection((err, conn) => {
+        if(err) 
+            return res.json({code: 500, error: err});
+
+        const query = `UPDATE class_group SET visible=0 WHERE id=${req.body.id}`;
+        conn.query(query, (err, rows) => {
+            if(err) {
+                return res.json({code: 500, error: err});
+            }
+
+            return res.json({code:200, result: 'Group removed!'});
         }); 
     });
 });
