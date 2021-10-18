@@ -1,4 +1,5 @@
 const createGroupBtn = document.getElementById('create-group-btn');
+const createPDFBtn = document.getElementById('create-pdf-btn');
 let deleteGroupButtons = [];
 let addStudentButtons = [];
 let indicator_settings = {};
@@ -7,6 +8,84 @@ let indicators = [];
 createGroupBtn.addEventListener('click', () => {
     createGroup();
 });
+
+createPDFBtn.addEventListener('click', async () => {
+    const divEl = document.createElement('div');
+    divEl.classList.add('test-dates', 'w-full', 'p-10', 'flex', 'flex-wrap', 'flex-column', 'justify-center');
+    divEl.setAttribute('id', 'groups');
+    const classID = document.getElementById('classID');
+    const groups = await getTestsGroups(classID.value);
+
+    let finalHtml = '';
+    
+    if(groups.length > 0)
+    {
+        groups.forEach((group) => {
+            // Set Group
+            finalHtml += `
+            <div class="w-full mb-10 group">
+            <div style="border: 1px solid black" class="group-title bg-blue-300 w-full font-bold text-lg text-center">${group.group_name}</div>
+            <div id="students">
+                <table class="w-full" border="2" style="border: 1px solid black">
+                    <thead>
+                        <tr class="border-black" style="border: 1px solid black">
+                            <th style="border: 1px solid black" class="border-black">Nombre del estudiante</th>
+                            <th style="border: 1px solid black; width: 35%;" class="border-black">Respuestas erroneas</th>
+                            <th style="border: 1px solid black; width: 10%;" class="border-black text-center">Pts Ob</th>
+                            <th style="border: 1px solid black; width: 10%;" class="border-black text-center">Nota</th>
+                            <th style="border: 1px solid black; width: 10%;" class="border-black text-center">%</th>
+                        </tr>
+                    </thead>
+                    <tbody indexprop="${group.id}">
+                    </tbody>
+                </table>
+            </div>
+            </div>\n`;
+        });
+        divEl.innerHTML = finalHtml;
+    }
+
+    const tbodies = divEl.querySelectorAll('tbody');
+    tbodies.forEach(async (body) => {
+        // Get Student Info
+        const test_data = await getStudentInfo(body.attributes['indexprop'].value);
+        let studentsInfo = '';
+
+        test_data.forEach(data => {
+            studentsInfo += `
+            <tr style="border: 1px solid black" class="border-black">
+                <td style="border: 1px solid black" class="border-black">${data.student}</td>
+                <td style="border: 1px solid black" class="border-black">${data.wrong_answers.replaceAll(',', '-')}</td>
+                <td style="border: 1px solid black" class="border-black student-points text-center">${data.points}</td>
+                <td style="border: 1px solid black" class="border-black student-note text-center">${data.note}</td>
+                <td style="border: 1px solid black" class="border-black student-percentage text-center">${data.percentage}</td>
+            </tr>`;
+        });
+
+        body.innerHTML = studentsInfo;
+    });
+
+    // Change title of the class
+    const classInfo = await getClassInfoByID(classID.value);
+    const groupsName = divEl.querySelectorAll('.group-title');
+    groupsName.forEach(group => {
+        group.innerText = `${classInfo.class_name} --- ${group.innerText}`;
+    });
+
+    const examDate = await getTestInfoByID(classInfo.test_id);
+    const newDate = new Date(examDate.date);
+    const dateName = `${newDate.getDate()}-${newDate.getMonth()+1}-${newDate.getFullYear()}`;
+    const opt = {
+        margin: 0,
+        filename: `Examen_${dateName}_clase_${classInfo.class_name}`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 1 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(divEl).save();
+});
+
 
 async function deleteStudent(id) {
     const removeConfirm = confirm("Esta seguro(a) que quiere eliminar este estudiante de la base de datos?");
@@ -97,7 +176,7 @@ async function loadGroups () {
                             <th class="border-2 border-black">Respuestas erroneas</th>
                             <th class="border-2 border-black">Pts obtenidos</th>
                             <th class="border-2 border-black">Nota</th>
-                            <th class="border-2 border-black" colspan="2">Porcentage %</th>
+                            <th class="border-2 border-black" colspan="2">Porcentaje %</th>
                         </tr>
                     </thead>
                     <tbody indexprop="${group.id}">
@@ -154,23 +233,49 @@ async function loadGroups () {
         studentValuesInput.forEach(student => {
             student.addEventListener('blur', async (e) => {
                 e.preventDefault();
+                console.log(student);
+                let wrongAnswer = student.value.split(',');
+                console.log(wrongAnswer);
+
+                let myFinalPoints = 0;
+                indicators.forEach((indicator, idx) => {
+                    let wrongPoints = 0;
+                    let values = indicator.value.split(',');
+                    wrongAnswer.forEach(answer => {
+                        values.forEach(val => {
+                            if(val.replace(' ', '') === answer.replace(' ', '')) {
+                                console.log(`Indicador ${idx+1} contiene este  ${answer}`);
+                                wrongPoints+=1;
+                            }
+                        })
+                    });
+
+                    if(wrongPoints >= 4)
+                        myFinalPoints += indicator_settings.third;
+                    else if(wrongPoints === 2 || wrongPoints === 3)
+                        myFinalPoints += indicator_settings.second;
+                    else if(wrongPoints <= 1)
+                        myFinalPoints += indicator_settings.first;
+                });
 
                 const points = student.parentElement.parentElement.querySelector('.student-points');
                 const note = student.parentElement.parentElement.querySelector('.student-note');
                 const percentage = student.parentElement.parentElement.querySelector('.student-percentage');
 
-                let wrongPoints = 0;
-                points.innerText = +indicator_settings.test_points;
-                note.innerText = Math.round(+points.innerText / +indicator_settings.test_points) * 100;
+                points.innerText = myFinalPoints;
+                note.innerText = +points.innerText / +indicator_settings.test_points * 100;
                 percentage.innerText = +note.innerText * indicator_settings.percentage;
 
-                // const saveName = await updateStudentName({ 
-                //     studentName: e.target.value, 
-                //     id: student.attributes['inputindex'].value
-                // });
+                const saveName = await updateStudentValues({ 
+                    studentValues: student.value, 
+                    points: +points.innerText,
+                    note: +note.innerText,
+                    percentage: +percentage.innerText,
+                    id: +student.attributes['inputindex'].value
+                });
 
-                // if(saveName.code === 200)
-                //     loadGroups();
+                if(saveName.code === 200)
+                    loadGroups();
             });
         });
     }, 100);   

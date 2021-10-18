@@ -149,8 +149,8 @@ router.put('/update/values', (req, res) => {
     req.getConnection((err, conn) => {
         if(err) 
             return res.json({code: 500, error: err});
-        
-        const query = `UPDATE test_data SET value='${req.body.studentValues}', points=${req.body.points}, note=${req.body.note}, percentage=${req.body.percentage} WHERE id=(${req.body.id})`;
+
+        const query = `UPDATE test_data SET wrong_answers='${req.body.studentValues}', points=${req.body.points}, note=${req.body.note}, percentage=${req.body.percentage} WHERE id=(${req.body.id})`;
         conn.query(query, (err, rows) => {
             if(err) {
                 return res.json({code: 500, error: err});

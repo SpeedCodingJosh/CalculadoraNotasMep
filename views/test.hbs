@@ -12,6 +12,7 @@
             <button id="create-group-btn" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Crear un grupo</button>
             <a href="/indicators" id="change-indicators" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Cambiar indicadores</a>
             <a href="/class/{{classID}}" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white" id="backBtn">Cambiar clase</a>
+            <button id="create-pdf-btn" class="bg-blue-300 p-2 border-black rounded-full hover:bg-blue-400 hover:text-white">Guardar PDF</button>
         </div>
 
         <div class="test-dates w-full p-10 flex flex-wrap flex-column justify-center" id="groups"></div>
@@ -20,8 +21,7 @@
     <input type="hidden" id="classID" value="{{classID}}" />
     <input type="hidden" id="testID" value="" />
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="../js/database.js"></script>
+    {{> footer}}
     <script src="../js/test.js"></script>
 </body>
 </html>
