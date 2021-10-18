@@ -77,14 +77,17 @@ saveBtn.addEventListener('click', async () => {
         percentage = percentage.value;
         let test_points = document.getElementById('test_points');
         test_points = test_points.value;
+        let use_decimal = document.getElementById('use_decimal');
+        use_decimal = use_decimal.checked ? 1 : 0;
         let settingID = document.getElementById('settingID');
         settingID = settingID.value;
 
         const settingsParams = {
-            first, second, third, percentage, test_points, settingID
+            first, second, third, percentage, test_points, use_decimal, settingID
         };
 
         const updateSettings = await updateIndicatorSettings(settingsParams);
+        console.log(updateSettings);
         if(updateSettings.code === 200)
             storedCount++;
 
@@ -166,12 +169,15 @@ async function loadIndicators () {
     const third = document.getElementById('third');
     const percentage = document.getElementById('percentage');
     const test_points = document.getElementById('test_points');
+    const use_decimal = document.getElementById('use_decimal');
 
     first.value = settings.first;
     second.value = settings.second;
     third.value = settings.third;
     percentage.value = settings.percentage;
     test_points.value = settings.test_points;
+    if(settings.use_decimal === 1)
+        use_decimal.checked = true;
 }
 
 loadIndicators();
