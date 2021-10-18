@@ -30,7 +30,7 @@ createPDFBtn.addEventListener('click', async () => {
                     <thead>
                         <tr class="border-black" style="border: 1px solid black">
                             <th style="border: 1px solid black" class="border-black">Nombre del estudiante</th>
-                            <th style="border: 1px solid black; width: 35%;" class="border-black">Respuestas erroneas</th>
+                            <th style="border: 1px solid black; width: 35%;" class="border-black">Respuestas erróneas</th>
                             <th style="border: 1px solid black; width: 10%;" class="border-black text-center">Pts Ob</th>
                             <th style="border: 1px solid black; width: 10%;" class="border-black text-center">Nota</th>
                             <th style="border: 1px solid black; width: 10%;" class="border-black text-center">%</th>
@@ -51,14 +51,14 @@ createPDFBtn.addEventListener('click', async () => {
         const test_data = await getStudentInfo(body.attributes['indexprop'].value);
         let studentsInfo = '';
 
-        test_data.forEach(data => {
+        test_data.forEach((data, idx) => {
             studentsInfo += `
             <tr style="border: 1px solid black" class="border-black">
-                <td style="border: 1px solid black" class="border-black">${data.student}</td>
-                <td style="border: 1px solid black" class="border-black">${data.wrong_answers.replaceAll(',', '-')}</td>
-                <td style="border: 1px solid black" class="border-black student-points text-center">${data.points}</td>
-                <td style="border: 1px solid black" class="border-black student-note text-center">${data.note}</td>
-                <td style="border: 1px solid black" class="border-black student-percentage text-center">${data.percentage}</td>
+                <td style="border: 1px solid black" class="border-black font-bold pl-1">${idx+1}. ${data.student} </td>
+                <td style="border: 1px solid black" class="border-black font-bold pl-1"> ${data.wrong_answers.replaceAll(',', '-')} </td>
+                <td style="border: 1px solid black" class="border-black student-points text-center font-bold">${data.points}</td>
+                <td style="border: 1px solid black" class="border-black student-note text-center font-bold">${data.note}</td>
+                <td style="border: 1px solid black" class="border-black student-percentage text-center font-bold">${data.percentage}</td>
             </tr>`;
         });
 
@@ -173,7 +173,7 @@ async function loadGroups () {
                     <thead>
                         <tr class="border-2 border-black">
                             <th class="border-2 border-black">Nombre del estudiante</th>
-                            <th class="border-2 border-black">Respuestas erroneas</th>
+                            <th class="border-2 border-black">Respuestas erróneas</th>
                             <th class="border-2 border-black">Pts obtenidos</th>
                             <th class="border-2 border-black">Nota</th>
                             <th class="border-2 border-black" colspan="2">Porcentaje %</th>
