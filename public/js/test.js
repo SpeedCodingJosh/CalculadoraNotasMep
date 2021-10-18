@@ -134,7 +134,6 @@ async function createGroup () {
             // Validation
             if(post.code === 500) {
                 groupValidation.innerText = "Hubo un error al intentar crear el grupo, intente más tarde.";
-                console.log(post.error);
             }
             else if(post.code === 200) {
                 input.value = '';
@@ -233,9 +232,7 @@ async function loadGroups () {
         studentValuesInput.forEach(student => {
             student.addEventListener('blur', async (e) => {
                 e.preventDefault();
-                console.log(student);
                 let wrongAnswer = student.value.split(',');
-                console.log(wrongAnswer);
 
                 let myFinalPoints = 0;
                 indicators.forEach((indicator, idx) => {
@@ -244,7 +241,6 @@ async function loadGroups () {
                     wrongAnswer.forEach(answer => {
                         values.forEach(val => {
                             if(val.replace(' ', '') === answer.replace(' ', '')) {
-                                console.log(`Indicador ${idx+1} contiene este  ${answer}`);
                                 wrongPoints+=1;
                             }
                         })
