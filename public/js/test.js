@@ -149,8 +149,6 @@ async function createGroup () {
     }
 }
 
-
-
 // Called from databases.js
 async function loadGroups () {
     const classID = document.getElementById('classID');
@@ -174,7 +172,7 @@ async function loadGroups () {
                             <th class="border-2 border-black">Nombre del estudiante</th>
                             <th class="border-2 border-black">Respuestas erróneas</th>
                             <th class="border-2 border-black">Pts obtenidos</th>
-                            <th class="border-2 border-black">Nota</th>
+                            <th style="width: 10%;" class="border-2 border-black">Nota</th>
                             <th class="border-2 border-black" colspan="2">Porcentaje %</th>
                         </tr>
                     </thead>
@@ -259,9 +257,15 @@ async function loadGroups () {
                 const percentage = student.parentElement.parentElement.querySelector('.student-percentage');
 
                 points.innerText = myFinalPoints;
-                note.innerText = +points.innerText / +indicator_settings.test_points * 100;
-                percentage.innerText = +note.innerText * indicator_settings.percentage;
-
+                if(indicator_settings.use_decimal === 1) {
+                    note.innerText = (+points.innerText / +indicator_settings.test_points * 100).toFixed(2);
+                    percentage.innerText = (+note.innerText * indicator_settings.percentage).toFixed(2);
+                }
+                else {
+                    note.innerText = (+points.innerText / +indicator_settings.test_points * 100).toFixed(0);
+                    percentage.innerText = (+note.innerText * indicator_settings.percentage).toFixed(0);
+                }
+                
                 const saveName = await updateStudentValues({ 
                     studentValues: student.value, 
                     points: +points.innerText,
