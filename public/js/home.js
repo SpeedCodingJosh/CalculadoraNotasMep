@@ -43,9 +43,9 @@ async function loadTests () {
 
         tests.forEach(test => {
             const parseDate = new Date(test.date);
-            const correctDate = `${parseDate.getDate().toString().padStart(2, '0')}/${(parseDate.getMonth()+1).toString().padStart(2, '0')}/${parseDate.getFullYear()}`;
+            const correctDate = `${(parseDate.getDate()+1).toString().padStart(2, '0')}/${(parseDate.getMonth()+1).toString().padStart(2, '0')}/${parseDate.getFullYear()}`;
 
-            finalHtml += `<a href="/class/${parseDate.getFullYear()}-${parseDate.getMonth()+1}-${parseDate.getDate()}" class="w-1/2 h-full font-bold hover:bg-blue-300 rounded-xl mb-10">Examen ${correctDate}</a>\n`;
+            finalHtml += `<a href="/class/${parseDate.getFullYear()}-${parseDate.getMonth()+1}-${parseDate.getDate()+1}" class="w-1/2 h-full font-bold hover:bg-blue-300 rounded-xl mb-10">Examen ${correctDate}</a>\n`;
         });
         container.innerHTML = finalHtml;
     }

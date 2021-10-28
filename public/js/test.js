@@ -153,6 +153,11 @@ async function createGroup () {
 async function loadGroups () {
     const classID = document.getElementById('classID');
     const groups = await getTestsGroups(classID.value);
+    const students = await getStudentList();
+
+    let studentsArr = [];
+    students.forEach(student => studentsArr.push(student.name));
+    console.log(studentsArr);
 
     const container = document.getElementById('groups');
     container.innerHTML = '';
@@ -198,7 +203,7 @@ async function loadGroups () {
         test_data.forEach(data => {
             studentsInfo += `
             <tr class="border-2 border-black">
-                <td class="border-2 border-black"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-name" inputindex="${data.id}" value="${data.student}" /></td>
+                <td class="border-2 border-black"><div class="autocomplete relative inline-block"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-name" inputindex="${data.id}" value="${students[data.student-1] ? students[data.student-1].name : ''}" /></div></td>
                 <td class="border-2 border-black"><input type="text" class="w-full bg-transparent focus:outline-none text-right student-value" inputindex="${data.id}" value="${data.wrong_answers}" /></td>
                 <td class="border-2 border-black student-points">${data.points}</td>
                 <td class="border-2 border-black student-note">${data.note}</td>
@@ -213,16 +218,21 @@ async function loadGroups () {
     setTimeout(() => {
         const studentInputs = container.querySelectorAll('.student-name');
         studentInputs.forEach(student => {
-            student.addEventListener('blur', async (e) => {
-                e.preventDefault();
+            student.addEventListener('click', autocomplete(student, studentsArr));
+            student.addEventListener('keydown', async (e) => {
+                if(e.keyCode == 13) {
+                    e.preventDefault();
 
-                const saveName = await updateStudentName({ 
-                    studentName: e.target.value, 
-                    id: student.attributes['inputindex'].value
-                });
+                    if(e.target.value !== '' && e.target.value !== undefined) {
+                        const saveName = await updateStudentName({ 
+                            studentName: e.target.value, 
+                            id: student.attributes['inputindex'].value
+                        });
 
-                if(saveName.code === 200)
-                    loadGroups();
+                        if(saveName.code === 200)
+                            loadGroups();
+                    }
+                }
             });
         });
 

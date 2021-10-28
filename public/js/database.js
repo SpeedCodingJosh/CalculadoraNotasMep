@@ -1,4 +1,4 @@
-const databaseURL = 'http://localhost:8080/api';
+const databaseURL = 'http://localhost:1973/api';
 
 /************
  *  TESTS   *
@@ -10,6 +10,20 @@ async function getTests () {
             userID: 1
         }
     });
+
+    if(get.data.code)
+    {
+        if(get.data.code === 200)
+            return get.data.rows;  
+        else if(get.data.code === 404) 
+            return [];
+    }
+
+    return [];
+}
+
+async function getStudentList () {
+    const get = await axios.get(`${databaseURL}/groups/students`);
 
     if(get.data.code)
     {

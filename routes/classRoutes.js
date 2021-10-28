@@ -48,8 +48,10 @@ router.post('/create', (req, res) => {
             {
                 if(err.errno === 1062) // Duplicate entry
                     return res.json({code: 1062, error: err});
-                else
+                else {
+                    console.log(err);
                     return res.json({code: 500, error: err});
+                }
             }
 
             return res.json({code:200, result: {class_name: req.body.class_name}});

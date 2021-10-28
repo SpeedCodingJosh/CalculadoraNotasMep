@@ -56,6 +56,8 @@ async function loadClasses () {
     const testID = await getTestIDByDate(testDate.value);
     const testIdEl = document.getElementById('testID');
     testIdEl.value = testID;
+    console.log("testID")
+    console.log(testID)
 
     const classes = await getClasses(testDate.value);
 

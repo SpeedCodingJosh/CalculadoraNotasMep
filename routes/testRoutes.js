@@ -133,15 +133,46 @@ router.put('/update/student', (req, res) => {
     req.getConnection((err, conn) => {
         if(err) 
             return res.json({code: 500, error: err});
-        
-        const query = `UPDATE test_data SET student='${req.body.studentName}' WHERE id=(${req.body.id})`;
-        conn.query(query, (err, rows) => {
+
+        const checkStudent = `SELECT * FROM students WHERE name = '${req.body.studentName}'`;
+        conn.query(checkStudent, (err, rows) => {
             if(err) {
+                console.log(err);
                 return res.json({code: 500, error: err});
             }
 
-            return res.json({code:200, result: 'Student modified'});
-        }); 
+            // found student
+            if(rows.length > 0) {
+                const foundStudent = `UPDATE test_data SET student=${rows[0].id} WHERE id=(${req.body.id})`;
+                conn.query(foundStudent, (err, rows) => {
+                    if(err) {
+                        console.log(err);
+                        return res.json({code: 500, error: err});
+                    }
+
+                    return res.json({code:200, result: 'Student modified'});
+                }); 
+            }
+            else {
+                const insertStudent = `INSERT INTO students (name) values ('${req.body.studentName}')`;
+                conn.query(insertStudent, (err, rows) => {
+                    if(err) {
+                        console.log(err);
+                        return res.json({code: 500, error: err});
+                    }
+                    
+                    const updateInserted = `UPDATE test_data SET student=${rows.insertId} WHERE id=(${req.body.id})`;
+                    conn.query(updateInserted, (err, rows) => {
+                        if(err) {
+                            console.log(err);
+                            return res.json({code: 500, error: err});
+                        }
+
+                        return res.json({code:200, result: 'Student created and modified'});
+                    }); 
+                }); 
+            }
+        });
     });
 });
 

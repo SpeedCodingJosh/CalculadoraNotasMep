@@ -19,6 +19,24 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/students', (req, res) => {
+    req.getConnection((err, conn) => {
+        if(err) 
+            return res.json({code: 500, error: err});
+        
+        const query = `SELECT * FROM students WHERE visible = 1`;
+        conn.query(query, (err, rows) => {
+            if(err) 
+                return res.json({code: 500, error: err});
+
+            if(rows.length > 0)
+                return res.json({code:200, rows});
+            else 
+                return res.json({code:404, rows: [], desc: 'No results found'});
+        }); 
+    });
+});
+
 router.get('/data/', (req, res) => {
     req.getConnection((err, conn) => {
         if(err) 
